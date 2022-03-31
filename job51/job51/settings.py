@@ -1,4 +1,4 @@
-from fake_useragent import UserAgent
+
 # Scrapy settings for job51 project
 #
 # For simplicity, this file contains only settings considered important or
@@ -25,7 +25,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 5
+DOWNLOAD_DELAY = 0
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -41,11 +41,6 @@ COOKIES_ENABLED = False
 #   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 #   'Accept-Language': 'en',
 #}
-DEFAULT_REQUEST_HEADERS = {
-        'Host':'search.51job.com',
-        'Upgrade-Insecure-Requests':'1',
-        'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36',
-}
 
 
 # Enable or disable spider middlewares
@@ -57,8 +52,7 @@ DEFAULT_REQUEST_HEADERS = {
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'job51.middlewares.Job51DownloaderMiddleware': 543,
-    #'job51.middlewares.Job51HeadersMiddleware': 543,
+   'job51.middlewares.Job51DownloaderMiddleware': 543,
 }
 
 # Enable or disable extensions
@@ -69,9 +63,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'job51.pipelines.Job51Pipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'job51.pipelines.MongoPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -96,5 +90,4 @@ DOWNLOADER_MIDDLEWARES = {
 KEYWORD='Python'
 MAX_PAGE=1500
 COUNT={'count':0}
-IPPOOL=[
-        ]
+IPPOOL=[]

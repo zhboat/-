@@ -7,7 +7,6 @@ TODO
 
 
 import json
-import pprint
 import requests
 import scrapy
 import re
@@ -19,7 +18,7 @@ class JobSpider(scrapy.Spider):
     name = 'job'
     allowed_domains = ['search.51job.com']
     start_urls = [
-        'https://search.51job.com/list/000000,000000,0000,00,9,99,{},2,{}.html?lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare='
+        'https://search.51job.com/list/000000,000000,0000,00,9,99,{},2,{}.html'
     ]
     job_edu_list = ['初中及以下', '高中', '中技', '中专', '大专', '本科', '硕士', '博士', '无学历要求']
     job_exp_list = ['在校生/应届生', '经验']
@@ -38,23 +37,17 @@ class JobSpider(scrapy.Spider):
 
     def start_requests(self):
         # 动态ip
-        #url = 'https://www.padaili.com/proxyapi?api=t3Zmzk29TLx4dIELsJVzXEJg3eaIN4Cb&num=100&type=1&xiangying=1&order=xiangying'
-        url = 'http://proxy.httpdaili.com/apinew.asp?ddbh=1528226256640768589'
+        url = 'http://proxy.httpdaili.com/apinew.asp?ddbh=1529963582497768589'
         ips = requests.get(url)
         for ip in ips.text.split('\r\n'):
             IPPOOL.append('http://'+ip)
         for url in self.start_urls:
-            yield Request(url.format(self.keyword, 1), dont_filter=True, meta={'page': 1})
+            for i in range(1,self.max_page):
+                yield Request(url.format(self.keyword,i), dont_filter=True, meta={'page': i})
 
     def parse(self, response):
-        print('\n\n\nheader:{}\n\n\n'.format(response.headers))
-        #data = response.text
-        print(response.text)
         data = re.findall('window.__SEARCH_RESULT__ = (.*?)</script>',response.text)[0]
         json_data = json.loads(str(data))
-        page = response.meta['page']
-        curr_page = json_data['curr_page']
-        total_page = json_data['total_page']
         engine_jds = json_data['engine_jds']
         for engine_jd in engine_jds:
             job_id = engine_jd.get('jobid')  # jobid
@@ -87,15 +80,7 @@ class JobSpider(scrapy.Spider):
             item['job_welfare'] = engine_jd.get('jobwelf')  # 职位福利
             item['company_industry'] = engine_jd.get('companyind_text')  # 所属行业
             job_href = engine_jd.get('job_href')
-            #yield Request(job_href, callback=self.parse_details, dont_filter=True, meta={'item': item})
-        if page < int(total_page) and page < self.max_page:
-            page += 1
-            #print('\n\n\nself.start_urls:{}\n\n\n'.format(self.start_urls))
-            #print('\n\n\nself.start_urls[0]:{}\n\n\n'.format(self.start_urls[0].format(self.keyword, page)))
-            #print('\n\n\npage:{}\n\n\n'.format(page))
-            #print('\n\n\ntotal_page:{}\n\n\n'.format(total_page))
-            #print('\n\n\nmax_page:{}\n\n\n'.format(self.max_page))
-            yield Request(self.start_urls[0].format(self.keyword, page), callback=self.parse, dont_filter=True, meta={'page': page},)
+            yield Request(job_href, callback=self.parse_details, dont_filter=True, meta={'item': item})
 
     def parse_details(self, response):
         item = response.meta['item']
@@ -115,4 +100,4 @@ class JobSpider(scrapy.Spider):
             'job_type': job_type,
         }
         item.update(data)
-        #yield item
+        yield item
