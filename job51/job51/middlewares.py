@@ -59,23 +59,22 @@ class Job51SpiderMiddleware:
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-# class Job51HeadersMiddleware:
-#    def process_request(self, request, spider):
-#        if request.url.startswith('https://jobs.51job.com/'):
-#            request.headers.update(
-#                {
-#                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-#                }
-#            )
-#        else:
-#            request.headers.update(
-#                {
-#                        'Accept': 'application/json, text/javascript, */*; q=0.01',
-#                }
-#            )
-#            pass
-#        pass
-#    pass
+class Job51HeadersMiddleware:
+    def process_request(self, request, spider):
+        if request.url.startswith('https://jobs.51job.com/'):
+            request.headers.update(
+                {
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+                }
+            )
+        else:
+            request.headers.update(
+                {
+                        'Accept': 'application/json, text/javascript, */*; q=0.01',
+                }
+            )
+            pass
+        return None
 
 class Job51DownloaderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -91,19 +90,20 @@ class Job51DownloaderMiddleware:
 
     def process_request(self, request, spider):
 
-        # 随机选中一个ip
+        ## 随机选中一个ip
         ip = random.choice(IPPOOL)
-        print('当前ip', ip, '-----', COUNT['count'])
         # 更换request的ip----------这句是重点
         request.meta['proxy'] = ip
         # 如果循环大于某个值,就清理ip池,更换ip的内容
-        if COUNT['count'] > 50:
-            print('-------------切换ip------------------')
-            COUNT['count'] = 0
-            IPPOOL.clear()
-            ips = requests.get('http://proxy.httpdaili.com/apinew.asp?ddbh=1528226256640768589')
-            for ip in ips.text.split('\r\n'):
-                IPPOOL.append('http://' + ip)
+        #if COUNT['count'] > 50:
+        #    print('-------------切换ip------------------')
+        #    COUNT['count'] = 0
+        #    IPPOOL.clear()
+        ##    url = 'https://www.padaili.com/proxyapi?api=t3Zmzk29TLx4dIELsJVzXEJg3eaIN4Cb&num=100&type=1&xiangying=1&order=xiangying'
+        #    url = 'http://proxy.httpdaili.com/apinew.asp?ddbh=1528226256640768589'
+        #    ips = requests.get(url)
+        #    for ip in ips.text.split('\r\n'):
+        #        IPPOOL.append('http://' + ip)
         # 每次访问,计数器+1
         COUNT['count'] += 1
         return None
