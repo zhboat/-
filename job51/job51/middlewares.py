@@ -8,7 +8,7 @@ from scrapy import signals
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 import random
-from .settings import IPPOOL, COUNT
+from .settings import IPPOOL
 
 
 class Job51SpiderMiddleware:

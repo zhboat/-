@@ -11,23 +11,19 @@ class Job51Item(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     fieldnames = [
+        'job_href',
         'job_id',
-        'keyword',
         'job_name',
-        'date',
+        'issue_date',
         'company_name',
         'salary',
-        'workplace',
-        'job_exp',
-        'job_edu',
-        'job_rent',
+        'work_area',
         'company_type',
         'company_size',
         'job_welfare',
         'company_industry',
-        'job_info',
-        'job_type',
+        'job_exp',
+        'job_edu',
     ]
     for field in fieldnames:
         exec('{} = Field()'.format(field))
-

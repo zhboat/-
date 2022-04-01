@@ -64,7 +64,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'job51.pipelines.MongoPipeline': 300,
+   'job51.pipelines.Job51Pipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -89,5 +89,4 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 KEYWORD='Python'
 MAX_PAGE=1500
-COUNT={'count':0}
 IPPOOL=[]
