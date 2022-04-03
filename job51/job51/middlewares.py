@@ -2,14 +2,15 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import time
 
 from scrapy import signals
-import requests
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 import random
-from .settings import IPPOOL, COUNT
+import requests
+from .settings import IPPOOL,COUNT
 
 
 class Job51SpiderMiddleware:
@@ -58,25 +59,6 @@ class Job51SpiderMiddleware:
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
 
-
-# class Job51HeadersMiddleware:
-#    def process_request(self, request, spider):
-#        if request.url.startswith('https://jobs.51job.com/'):
-#            request.headers.update(
-#                {
-#                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-#                }
-#            )
-#        else:
-#            request.headers.update(
-#                {
-#                        'Accept': 'application/json, text/javascript, */*; q=0.01',
-#                }
-#            )
-#            pass
-#        pass
-#    pass
-
 class Job51DownloaderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
@@ -90,33 +72,31 @@ class Job51DownloaderMiddleware:
         return s
 
     def process_request(self, request, spider):
-
-        # 随机选中一个ip
+        #从IP池随机选中一个ip
         ip = random.choice(IPPOOL)
-        print('当前ip', ip, '-----', COUNT['count'])
-        # 更换request的ip----------这句是重点
+        print('\n当前请求的ip为-----{},重复次数:{}\n'.format(ip,COUNT['count']))
+        # # 更换请求的ip
         request.meta['proxy'] = ip
-        # 如果循环大于某个值,就清理ip池,更换ip的内容
         if COUNT['count'] > 50:
-            print('-------------切换ip------------------')
+            print('\n-------------切换ip------------------\n')
+            time.sleep(5)
             COUNT['count'] = 0
             IPPOOL.clear()
-            ips = requests.get('http://proxy.httpdaili.com/apinew.asp?ddbh=1528226256640768589')
+            ips = requests.get('http://webapi.http.zhimacangku.com/getip?num=400&type=1&pro=&city=0&yys=0&port=1&pack=227503&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions=')
             for ip in ips.text.split('\r\n'):
                 IPPOOL.append('http://' + ip)
-        # 每次访问,计数器+1
         COUNT['count'] += 1
         return None
 
-    # Called for each request that goes through the downloader
-    # middleware.
+        # Called for each request that goes through the downloader
+        # middleware.
 
-    # Must either:
-    # - return None: continue processing this request
-    # - or return a Response object
-    # - or return a Request object
-    # - or raise IgnoreRequest: process_exception() methods of
-    #   installed downloader middleware will be called
+        # Must either:
+        # - return None: continue processing this request
+        # - or return a Response object
+        # - or return a Request object
+        # - or raise IgnoreRequest: process_exception() methods of
+        #   installed downloader middleware will be called
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
@@ -139,16 +119,3 @@ class Job51DownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
-
-# class MyproxiesSpiderMiddleware(object):
-#
-#
-#     def __init__(self, ip=''):
-#         self.ip = ip
-#         pass
-#
-#     def process_request(self, request, spider):
-#         api = 'http://proxy.httpdaili.com/apinew.asp?ddbh=1528226256640768589'
-#         res = requests.get(url=api)
-#         thisip = random.choice(res.text)
-#         request.meta["proxy"]="http://" + thisip["ipaddr"]
