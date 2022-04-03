@@ -1,7 +1,5 @@
 '''
 TODO
-1. 换页就error？
-
 '''
 
 
@@ -37,16 +35,25 @@ class JobSpider(scrapy.Spider):
 
     def start_requests(self):
         # 动态ip
-        url = 'http://proxy.httpdaili.com/apinew.asp?ddbh=1529963582497768589'
-        ips = requests.get(url)
+        # url = 'https://ip.jiangxianli.com/api/proxy_ips'
+        # res = requests.get(url)
+        # json_data = res.json()
+        # datas = json_data.get('data')
+        # for data in datas.get('data'):
+        #     ip = 'http://' + data['ip'] + ':' + data['port']
+        #     IPPOOL.append(ip)
+        api_url = 'http://webapi.http.zhimacangku.com/getip?num=400&type=1&pro=&city=0&yys=0&port=1&pack=227503&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions='
+        ips = requests.get(api_url)
         for ip in ips.text.split('\r\n'):
-            IPPOOL.append('http://'+ip)
+            if ip:
+                IPPOOL.append('http://' + ip)
+
         for url in self.start_urls:
             for i in range(1,self.max_page):
                 yield Request(url.format(self.keyword,i), dont_filter=True, meta={'page': i})
 
     def parse(self, response):
-        data = re.findall('window.__SEARCH_RESULT__ = (.*?)</script>',response.text)[0]
+        data = re.findall('window.__SEARCH_RESULT__ = (.*?)</script>', response.text)[0]
         json_data = json.loads(str(data))
         engine_jds = json_data['engine_jds']
         for engine_jd in engine_jds:
@@ -55,30 +62,45 @@ class JobSpider(scrapy.Spider):
             job_href = engine_jd.get('job_href')
             # 职位链接
             item['job_href'] = re.split('\?',job_href)[0]
-            # 职位id
-            item['job_id'] = engine_jd.get('jobid')
             # 职位名称
-            item['job_name'] =engine_jd.get('job_name')
+            item['job_name'] = engine_jd.get('job_name')
             # 发布日期
             item['issue_date'] = engine_jd.get('issuedate')
             # 公司名称
             item['company_name'] = engine_jd.get('company_name')
             # 薪水
-            item['salary'] = engine_jd.get('providesalary_text')
+            salary = engine_jd.get('providesalary_text')
+            if salary:
+                item['salary'] = salary
+            else:item['salary'] = '面谈'
             # 工作地点
             item['work_area'] = engine_jd.get('workarea_text')
             # 公司类型
-            item['company_type'] = engine_jd.get('companytype_text')
+            company_type = engine_jd.get('companytype_text')
+
+            if company_type:
+                item['company_type'] = company_type
+            else: item['company_type'] = '不详'
             # 公司规模
-            item['company_size'] = engine_jd.get('companysize_text')
+            company_size = engine_jd.get('companysize_text')
+            if company_size:
+                item['company_size'] = company_size
+            else: item['company_size'] = '未知'
             # 职位福利
-            item['job_welfare'] = engine_jd.get('jobwelf')
+            job_welfare =  engine_jd.get('jobwelf')
+            if job_welfare:
+                item['job_welfare'] = job_welfare
+            else: item['job_welfare'] = '无'
             # 所属行业
-            item['company_industry'] = engine_jd.get('companyind_text')
+            company_industry = engine_jd.get('companyind_text')
+            if company_industry:
+                item['company_industry'] = company_industry
+            else:
+                item['company_industry'] = '未知'
             # 工作经验
-            item['job_exp'] = '' 
+            item['job_exp'] = ''
             # 学历
-            item['job_edu'] = '' 
+            item['job_edu'] = ''
             for attr in attribute_text:
                 for job_exp in self.job_exp_list:
                     if job_exp in attr:
@@ -89,35 +111,8 @@ class JobSpider(scrapy.Spider):
                         pass
                     pass
                 pass
+            if not item['job_edu']:
+                item['job_edu'] = '其他'
+            if not item['job_exp']:
+                item['job_exp'] = '不详'
             yield item
-                #if '招' in attr and '人' in attr:
-                #    num = re.findall('招(.*?)人', attr)
-                 #   if num:
-                 #       item['job_rent'] = num[0]
-                 #       if num[0] == '若干':
-                 #           item['job_rent'] = '∞'
-            #yield Request(job_href, callback=self.parse_details, dont_filter=True, meta={'item': item})
-
-    #def parse_details(self, response):
-    #    item = response.meta['item']
-    #    jts = response.xpath('//div[@class="tCompany_main"]/div[@class="tBorderTop_box"]')
-    #    job_info = ''
-    #    job_type = ''
-    #    print('\n\n\njts:{}\n\n\n'.format(jts))
-    #    try:
-    #        for jt in jts:
-    #            if jt.xpath('./h2/span/text()').extract_first() == '职位信息':
-    #                job_info = '\n'.join([i.strip() for i in jt.xpath('./div//text()').extract() if i.strip() != ''])
-    #                print('\n\n\nfor_job_info:{}\n\n'.format(job_info))
-    #        job_type = response.xpath('//p[@class="fp"]/a/text()').extract_first()
-    #        print('\n\n\nfor_job_type:{}\n\n'.format(job_type))
-    #    except IndexError:
-    #        pass
-    #    print('\n\n\njob_info:{}\n\n'.format(job_info))
-    #    print('\n\n\njob_type:{}\n\n'.format(job_type))
-
-    #    data = {
-    #        'job_info': job_info,
-    #        'job_type': job_type,
-    #    }
-    #    item.update(data)

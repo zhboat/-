@@ -12,7 +12,6 @@ class Job51Item(scrapy.Item):
     # name = scrapy.Field()
     fieldnames = [
         'job_href',
-        'job_id',
         'job_name',
         'issue_date',
         'company_name',
