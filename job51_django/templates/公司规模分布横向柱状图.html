@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>公司规模分布横向柱状图</title>
+            <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+
+</head>
+<body>
+    <div id="1ceab51af9da4c07b1802eb0308f2991" class="chart-container" style="width:900px; height:500px;"></div>
+    <script>
+        var chart_1ceab51af9da4c07b1802eb0308f2991 = echarts.init(
+            document.getElementById('1ceab51af9da4c07b1802eb0308f2991'), 'light', {renderer: 'canvas'});
+        var option_1ceab51af9da4c07b1802eb0308f2991 = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "series": [
+        {
+            "type": "bar",
+            "name": "\u516c\u53f8\u89c4\u6a21",
+            "legendHoverLink": true,
+            "data": [
+                5154,
+                6776,
+                5066,
+                4525,
+                9247,
+                6364,
+                1412,
+                8251
+            ],
+            "showBackground": false,
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": true,
+                "position": "right",
+                "margin": 8
+            },
+            "rippleEffect": {
+                "show": true,
+                "brushType": "stroke",
+                "scale": 2.5,
+                "period": 4
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "\u516c\u53f8\u89c4\u6a21"
+            ],
+            "selected": {
+                "\u516c\u53f8\u89c4\u6a21": true
+            },
+            "show": true,
+            "left": "5px",
+            "bottom": "10%",
+            "orient": "vertical",
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "textStyle": {
+            "fontSize": 14
+        },
+        "borderWidth": 0,
+        "padding": 5
+    },
+    "xAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "gridIndex": 0,
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "splitLine": {
+                "show": false,
+                "lineStyle": {
+                    "show": true,
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            }
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "gridIndex": 0,
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "splitLine": {
+                "show": false,
+                "lineStyle": {
+                    "show": true,
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "data": [
+                "10000\u4eba\u4ee5\u4e0a",
+                "1000-5000\u4eba",
+                "500-1000\u4eba",
+                "\u5c11\u4e8e50\u4eba",
+                "150-500\u4eba",
+                "\u672a\u77e5",
+                "5000-10000\u4eba",
+                "50-150\u4eba"
+            ]
+        }
+    ],
+    "title": [
+        {
+            "text": "\u516c\u53f8\u89c4\u6a21\u5206\u5e03",
+            "left": "center",
+            "padding": 5,
+            "itemGap": 10
+        }
+    ]
+};
+        chart_1ceab51af9da4c07b1802eb0308f2991.setOption(option_1ceab51af9da4c07b1802eb0308f2991);
+    </script>
+</body>
+</html>
