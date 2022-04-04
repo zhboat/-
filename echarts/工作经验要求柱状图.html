@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <title>Awesome-pyecharts</title>
             <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+        <script type="text/javascript" src="https://assets.pyecharts.org/assets/themes/wonderland.js"></script>
 
 </head>
 <body>
-    <div id="1ceab51af9da4c07b1802eb0308f2991" class="chart-container" style="width:900px; height:500px;"></div>
+    <div id="933e248b78914a9b8df8ccdf7131cd3b" class="chart-container" style="width:900px; height:500px;"></div>
     <script>
-        var chart_1ceab51af9da4c07b1802eb0308f2991 = echarts.init(
-            document.getElementById('1ceab51af9da4c07b1802eb0308f2991'), 'light', {renderer: 'canvas'});
-        var option_1ceab51af9da4c07b1802eb0308f2991 = {
+        var chart_933e248b78914a9b8df8ccdf7131cd3b = echarts.init(
+            document.getElementById('933e248b78914a9b8df8ccdf7131cd3b'), 'wonderland', {renderer: 'canvas'});
+        var option_933e248b78914a9b8df8ccdf7131cd3b = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -23,17 +24,18 @@
     "series": [
         {
             "type": "bar",
-            "name": "\u516c\u53f8\u89c4\u6a21",
+            "name": "\u5de5\u4f5c\u7ecf\u9a8c",
             "legendHoverLink": true,
             "data": [
-                5154,
-                6776,
-                5066,
-                4525,
-                9247,
-                6364,
-                1412,
-                8251
+                94,
+                5654,
+                7834,
+                254,
+                7938,
+                596,
+                3119,
+                15208,
+                6098
             ],
             "showBackground": false,
             "barMinHeight": 0,
@@ -48,8 +50,9 @@
             "z": 2,
             "label": {
                 "show": true,
-                "position": "right",
-                "margin": 8
+                "position": "top",
+                "margin": 8,
+                "formatter": "{c}"
             },
             "rippleEffect": {
                 "show": true,
@@ -62,10 +65,10 @@
     "legend": [
         {
             "data": [
-                "\u516c\u53f8\u89c4\u6a21"
+                "\u5de5\u4f5c\u7ecf\u9a8c"
             ],
             "selected": {
-                "\u516c\u53f8\u89c4\u6a21": true
+                "\u5de5\u4f5c\u7ecf\u9a8c": true
             },
             "show": true,
             "left": "5px",
@@ -100,7 +103,11 @@
             "scale": false,
             "nameLocation": "end",
             "nameGap": 15,
+            "nameRotate": 60,
             "gridIndex": 0,
+            "axisLabel": {
+                "rotate": 45
+            },
             "inverse": false,
             "offset": 0,
             "splitNumber": 5,
@@ -114,7 +121,18 @@
                     "curveness": 0,
                     "type": "solid"
                 }
-            }
+            },
+            "data": [
+                "\u4e0d\u8be6",
+                "5-7\u5e74\u7ecf\u9a8c",
+                "2\u5e74\u7ecf\u9a8c",
+                "10\u5e74\u4ee5\u4e0a\u7ecf\u9a8c",
+                "\u5728\u6821\u751f/\u5e94\u5c4a\u751f",
+                "8-9\u5e74\u7ecf\u9a8c",
+                "\u65e0\u9700\u7ecf\u9a8c",
+                "3-4\u5e74\u7ecf\u9a8c",
+                "1\u5e74\u7ecf\u9a8c"
+            ]
         }
     ],
     "yAxis": [
@@ -137,29 +155,19 @@
                     "curveness": 0,
                     "type": "solid"
                 }
-            },
-            "data": [
-                "10000\u4eba\u4ee5\u4e0a",
-                "1000-5000\u4eba",
-                "500-1000\u4eba",
-                "\u5c11\u4e8e50\u4eba",
-                "150-500\u4eba",
-                "\u672a\u77e5",
-                "5000-10000\u4eba",
-                "50-150\u4eba"
-            ]
+            }
         }
     ],
     "title": [
         {
-            "text": "\u516c\u53f8\u89c4\u6a21\u5206\u5e03",
+            "text": "\u5de5\u4f5c\u7ecf\u9a8c\u8981\u6c42",
             "left": "center",
             "padding": 5,
             "itemGap": 10
         }
     ]
 };
-        chart_1ceab51af9da4c07b1802eb0308f2991.setOption(option_1ceab51af9da4c07b1802eb0308f2991);
+        chart_933e248b78914a9b8df8ccdf7131cd3b.setOption(option_933e248b78914a9b8df8ccdf7131cd3b);
     </script>
 </body>
 </html>

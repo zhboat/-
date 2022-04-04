@@ -1,13 +1,7 @@
-import pymongo  # python连接mongodb数据库模块
-from wordcloud import WordCloud  # 词云图绘制模块
-from collections import Counter  # 获取数据库链接游标
-from pyecharts.charts import Bar, Pie, WordCloud, Map  # bar：条形图绘制模块，pie：饼图绘制模块，wordcloud：词云图绘制模块
-from pyecharts.render import make_snapshot  # 绘图模块
+import pymongo  # 连接mongodb
+from pyecharts.charts import Bar, Pie, Map  # bar：条形图绘制模块，pie：饼图绘制模块, map: 地图绘制模块
 from pyecharts import options as opts
-from pyecharts.globals import ThemeType
-import jieba.analyse  # 导入结巴分词
-import numpy as np
-from PIL import Image  # 图片处理
+from pyecharts.globals import ThemeType  # 主题类型
 
 '''
 TODO：
@@ -15,7 +9,7 @@ TODO：
 √ 2. 工作经验竖柱状图
 '''
 
-# pyecharts模块的详细使用教程和实例网址：http://pyecharts.org/#/
+# pyecharts官网http://pyecharts.org/
 
 client = pymongo.MongoClient('mongodb://localhost:27017/')
 db = client['recruitment']
@@ -29,8 +23,8 @@ state = []
 company_size = []
 # 工作经验
 job_exp = []
-# 福利
 
+# 省市对应关系
 city_lists = {
     "北京": ["北京"],
     "天津": ["天津"],
@@ -71,20 +65,21 @@ city_lists = {
     "重庆": ["重庆"]
 }
 
+# 下面是比较辣眼睛的数据处理 0-0
+
 # 数据清洗 -- 学历
 for i in mycol.find({}, {'job_edu': 1, '_id': 0}):
     for j in i.values():
         education.append(j)
         pass
     pass
-
 # 数据清洗 -- 学历
 def get_edu(list):
     education2 = {}
     for i in set(list):
         education2[i] = list.count(i)
+        pass
     return education2
-
 edu = get_edu(education)
 
 # 数据清洗 -- 城市
@@ -106,15 +101,15 @@ for i in mycol.find({}, {'work_area': 1, '_id': 0}):
             pass
         pass
     pass
-
 # 数据清洗 -- 城市
 def get_city(list):
     work_city = {}
     for i in set(list):
         work_city[i] = list.count(i)
+        pass
     return work_city
-
 city = get_city(state)
+
 
 # 数据清洗 -- 公司规模
 for i in mycol.find({}, {'company_size': 1, '_id': 0}):
@@ -122,13 +117,14 @@ for i in mycol.find({}, {'company_size': 1, '_id': 0}):
         company_size.append(j)
         pass
     pass
-
 # 数据清洗 -- 公司规模
 def company_scale(list):
     size = {}
     for i in set(list):
         size[i] = list.count(i)
+        pass
     return size
+
 
 size = company_scale(company_size)
 
@@ -138,18 +134,18 @@ for i in mycol.find({}, {'job_exp': 1, '_id': 0}):
         job_exp.append(j)
         pass
     pass
-
 # 数据清洗 -- 工作经验
 def experience(list):
     exp = {}
     for i in set(list):
         exp[i] = list.count(i)
+        pass
     return exp
-
 exp = experience(job_exp)
 
-class PyMongoDemo(object):
 
+class PyMongoDemo(object):
+    # 学历饼图
     def edu_pie(self):
         data_pair = [list(z) for z in zip(edu.keys(), edu.values())]
         (
@@ -176,6 +172,7 @@ class PyMongoDemo(object):
         )
         pass
 
+    # 职位地图
     def job_map(self):
         data_pair = [list(z) for z in zip(city.keys(), city.values())]
         (
@@ -207,7 +204,9 @@ class PyMongoDemo(object):
             )
                 .render("职位分布地图.html")
         )
+        pass
 
+    # 规模柱状图
     def size_bar(self):
         (
             Bar(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
@@ -230,7 +229,9 @@ class PyMongoDemo(object):
             )
                 .render('公司规模分布横向柱状图.html')
         )
+        pass
 
+    # 经验柱状图
     def exp_bar(self):
         (
             Bar(init_opts=opts.InitOpts(theme=ThemeType.WONDERLAND))
@@ -259,22 +260,6 @@ class PyMongoDemo(object):
                 .render('工作经验要求柱状图.html')
         )
         pass
-
-    def wordcloud(self):
-
-        wordlist = jieba.analyse.extract_tags(str(job_welfare))  # 分词，取前70
-        wordStr = " ".join(wordlist)
-
-        # hand = np.array(Image.open('hand.jpg'))  # 打开一张图片，词语以图片形状为背景分布
-
-        my_cloudword = WordCloud(  # wordcloud参数配置
-          # 背景图片
-            max_words=300,  # 最大显示的字数
-            max_font_size=60,  # 字体最大值
-        )
-
-        my_cloudword.generate(wordStr)  # 生成图片
-        my_cloudword.to_file('wordcloud.png')  # 保存
 
 
 if __name__ == '__main__':

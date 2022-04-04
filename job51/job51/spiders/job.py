@@ -34,15 +34,15 @@ class JobSpider(scrapy.Spider):
         )
 
     def start_requests(self):
-        # 动态ip
-        # url = 'https://ip.jiangxianli.com/api/proxy_ips'
+        # 动态ip  -- 本人是付费购买的ip代理池，请自行更换
+        # url = 'IP池api'
         # res = requests.get(url)
         # json_data = res.json()
         # datas = json_data.get('data')
         # for data in datas.get('data'):
         #     ip = 'http://' + data['ip'] + ':' + data['port']
         #     IPPOOL.append(ip)
-        api_url = 'http://webapi.http.zhimacangku.com/getip?num=400&type=1&pro=&city=0&yys=0&port=1&pack=227503&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions='
+        api_url = 'IP池api'
         ips = requests.get(api_url)
         for ip in ips.text.split('\r\n'):
             if ip:
