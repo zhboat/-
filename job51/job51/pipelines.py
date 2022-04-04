@@ -24,10 +24,7 @@ class MongoPipeline(object):
         db = client['recruitment']
         self.mycol = db['job']
 
-    #  pass
-
     def process_item(self, item, spider):
-
         if any(dict(item).values()):
             # 数据保存到pymongo
             url = {'job_href': item['job_href']}

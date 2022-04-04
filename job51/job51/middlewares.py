@@ -82,7 +82,7 @@ class Job51DownloaderMiddleware:
             time.sleep(5)
             COUNT['count'] = 0
             IPPOOL.clear()
-            ips = requests.get('http://webapi.http.zhimacangku.com/getip?num=400&type=1&pro=&city=0&yys=0&port=1&pack=227503&ts=0&ys=0&cs=0&lb=1&sb=0&pb=4&mr=1&regions=')
+            ips = requests.get('IP池api')
             for ip in ips.text.split('\r\n'):
                 IPPOOL.append('http://' + ip)
         COUNT['count'] += 1
