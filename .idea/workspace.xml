@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55a4cee3-e799-4be0-bfae-7d29fd653477" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/job51_django/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/job51_django/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job51_django/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/job51_django/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job51_django/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/job51_django/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/job51_django/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/job51_django/views.py" afterDir="false" />
@@ -153,6 +150,9 @@
       <module name="job51_django" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="/usr/local/bin/python3.8" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/job51_django" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -246,7 +246,7 @@
       <workItem from="1648827048213" duration="27587000" />
       <workItem from="1648913647428" duration="5204000" />
       <workItem from="1648972506535" duration="37581000" />
-      <workItem from="1649060103141" duration="8479000" />
+      <workItem from="1649060103141" duration="11988000" />
     </task>
     <servers />
   </component>

@@ -20,6 +20,10 @@ from . import views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('index.html', views.hello),
+    path('index.html', views.home),
+    path('职位分布地图.html', views.state),
+    path('工作经验要求柱状图.html', views.job_exp),
+    path('公司规模分布横向柱状图.html', views.company_size),
+    path('学历要求饼状图.html', views.education),
     path('', views.login),
 ]
